@@ -34,11 +34,11 @@
             label2 = new Label();
             comboUserType = new ComboBox();
             pictureBox2 = new PictureBox();
-            panelStu = new Panel();
+            pnl_user = new Panel();
             pictureBox3 = new PictureBox();
             lab_or = new Label();
             btn_register = new Button();
-            btnLogStu = new Button();
+            btn_Login = new Button();
             txtStuPass = new TextBox();
             label6 = new Label();
             label4 = new Label();
@@ -46,7 +46,7 @@
             lab_userType = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
-            panelStu.SuspendLayout();
+            pnl_user.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             SuspendLayout();
             // 
@@ -103,21 +103,21 @@
             pictureBox2.TabIndex = 20;
             pictureBox2.TabStop = false;
             // 
-            // panelStu
+            // pnl_user
             // 
-            panelStu.Controls.Add(pictureBox3);
-            panelStu.Controls.Add(lab_or);
-            panelStu.Controls.Add(btn_register);
-            panelStu.Controls.Add(btnLogStu);
-            panelStu.Controls.Add(txtStuPass);
-            panelStu.Controls.Add(label6);
-            panelStu.Controls.Add(label4);
-            panelStu.Controls.Add(txtStuUsername);
-            panelStu.Controls.Add(lab_userType);
-            panelStu.Location = new Point(193, 172);
-            panelStu.Name = "panelStu";
-            panelStu.Size = new Size(383, 472);
-            panelStu.TabIndex = 21;
+            pnl_user.Controls.Add(pictureBox3);
+            pnl_user.Controls.Add(lab_or);
+            pnl_user.Controls.Add(btn_register);
+            pnl_user.Controls.Add(btn_Login);
+            pnl_user.Controls.Add(txtStuPass);
+            pnl_user.Controls.Add(label6);
+            pnl_user.Controls.Add(label4);
+            pnl_user.Controls.Add(txtStuUsername);
+            pnl_user.Controls.Add(lab_userType);
+            pnl_user.Location = new Point(193, 172);
+            pnl_user.Name = "pnl_user";
+            pnl_user.Size = new Size(383, 472);
+            pnl_user.TabIndex = 21;
             // 
             // pictureBox3
             // 
@@ -153,19 +153,19 @@
             btn_register.UseVisualStyleBackColor = false;
             btn_register.Click += btn_register_Click;
             // 
-            // btnLogStu
+            // btn_Login
             // 
-            btnLogStu.BackColor = Color.LimeGreen;
-            btnLogStu.FlatAppearance.BorderColor = Color.FromArgb(64, 64, 64);
-            btnLogStu.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnLogStu.ForeColor = Color.White;
-            btnLogStu.Location = new Point(46, 328);
-            btnLogStu.Name = "btnLogStu";
-            btnLogStu.Size = new Size(300, 39);
-            btnLogStu.TabIndex = 13;
-            btnLogStu.Text = "Login";
-            btnLogStu.UseVisualStyleBackColor = false;
-            btnLogStu.Click += btnLogStu_Click_1;
+            btn_Login.BackColor = Color.LimeGreen;
+            btn_Login.FlatAppearance.BorderColor = Color.FromArgb(64, 64, 64);
+            btn_Login.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btn_Login.ForeColor = Color.White;
+            btn_Login.Location = new Point(46, 328);
+            btn_Login.Name = "btn_Login";
+            btn_Login.Size = new Size(300, 39);
+            btn_Login.TabIndex = 13;
+            btn_Login.Text = "Login";
+            btn_Login.UseVisualStyleBackColor = false;
+            btn_Login.Click += btnLogStu_Click_1;
             // 
             // txtStuPass
             // 
@@ -223,7 +223,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(824, 752);
-            Controls.Add(panelStu);
+            Controls.Add(pnl_user);
             Controls.Add(pictureBox2);
             Controls.Add(comboUserType);
             Controls.Add(label2);
@@ -235,8 +235,8 @@
             Load += FrmLogin_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
-            panelStu.ResumeLayout(false);
-            panelStu.PerformLayout();
+            pnl_user.ResumeLayout(false);
+            pnl_user.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -250,10 +250,10 @@
         private ComboBox comboUserType;
         private TextBox textBox2;
         private PictureBox pictureBox2;
-        private Panel panelStu;
+        private Panel pnl_user;
         private Label lab_or;
         private Button btn_register;
-        private Button btnLogStu;
+        private Button btn_Login;
         private TextBox txtStuPass;
         private Label label6;
         private Label label4;

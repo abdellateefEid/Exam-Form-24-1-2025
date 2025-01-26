@@ -14,6 +14,15 @@ namespace Exam_Form
             //Application.Run(new Frm_Stu_Coures_Exam());
             Application.Run(new Frm_Login());
             //Application.Run(new Frm_ImageTest());
+            //Application.Run(new Frm_Instructor(new Instructor()));
+            //Application.Run(new Frm_GetStuByDept_SP());
+            //Application.Run(new Frm_GetInstructorCourses());
+            //Application.Run(new Frm_GetCourseTopics());
+            //Application.Run(new Frm_GetExamQuestionsWithAnswers());
+            //Application.Run(new Frm_GetExamQuestionsWithChoices());
+            //Application.Run(new Frm_GetStudentGrades());
+
+
         }
     }
 }

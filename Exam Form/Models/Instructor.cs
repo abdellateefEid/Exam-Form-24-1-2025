@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Exam_Form.Models;
 
 [Table("Instructor")]
+[Index("InstructorEmail", Name = "Instructor_Email", IsUnique = true)]
 public partial class Instructor
 {
     [Key]
@@ -58,7 +59,7 @@ public partial class Instructor
 
     [Required]
     [Column("Instructor_Email")]
-    [StringLength(255)]
+    [StringLength(50)]
     [Unicode(false)]
     public string InstructorEmail { get; set; }
 
@@ -71,6 +72,10 @@ public partial class Instructor
 
     [InverseProperty("Manager")]
     public virtual ICollection<Department> Departments { get; set; } = new List<Department>();
+
+    [ForeignKey("InstructorEmail")]
+    [InverseProperty("Instructor")]
+    public virtual User InstructorEmailNavigation { get; set; }
 
     [ForeignKey("InstructorId")]
     [InverseProperty("Instructors")]

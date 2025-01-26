@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             panel1 = new Panel();
-            lab_ans = new Label();
             groupBox1 = new GroupBox();
             radioButton4 = new RadioButton();
             lab_submit = new Label();
@@ -48,7 +47,6 @@
             // 
             // panel1
             // 
-            panel1.Controls.Add(lab_ans);
             panel1.Controls.Add(groupBox1);
             panel1.Controls.Add(btn_nxt);
             panel1.Controls.Add(btn_pre);
@@ -58,16 +56,6 @@
             panel1.Size = new Size(836, 352);
             panel1.TabIndex = 0;
             panel1.Paint += panel1_Paint;
-            // 
-            // lab_ans
-            // 
-            lab_ans.AutoSize = true;
-            lab_ans.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lab_ans.Location = new Point(73, 255);
-            lab_ans.Name = "lab_ans";
-            lab_ans.Size = new Size(41, 25);
-            lab_ans.TabIndex = 3;
-            lab_ans.Text = "ans";
             // 
             // groupBox1
             // 
@@ -199,7 +187,6 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(1003, 557);
-            ControlBox = false;
             Controls.Add(btn_colse);
             Controls.Add(btn_submit);
             Controls.Add(panel1);
@@ -229,7 +216,6 @@
         private RadioButton radioButton3;
         private RadioButton radioButton2;
         private RadioButton radioButton1;
-        private Label lab_ans;
         private Microsoft.Data.SqlClient.SqlCommandBuilder sqlCommandBuilder1;
         private Button btn_submit;
         private Label lab_submit;

@@ -22,7 +22,7 @@ namespace Exam_Form
         {
             if (comboUserType.SelectedIndex > -1)
             {
-                panelStu.Visible = true;
+                pnl_user.Visible = true;
                 pictureBox3.Visible = true;
             }
 
@@ -49,19 +49,16 @@ namespace Exam_Form
         }
 
         private Frm_Instructor _instructorPage;
-
         private Frm_Stu_Coures_Exam _stuCourseExam;
-
+        private Frm_StuApplyProgram _StuApplyProgram;
         private Frm_Stu_Register _Frm_Regiser;
 
         private void FrmLogin_Load(object sender, EventArgs e)
         {
-            panelStu.Visible = false;
+            pnl_user.Visible = false;
 
             comboUserType.Items.Add(UserType.Student.ToString());
             comboUserType.Items.Add(UserType.Instructor.ToString());
-
-
         }
 
         private void btnLogStu_Click_1(object sender, EventArgs e)
@@ -81,15 +78,27 @@ namespace Exam_Form
                     {
                         if (userType == UserType.Student)
                         {
-                            _student = context.Students.Find(user.UserId);
 
-                            _stuCourseExam = new Frm_Stu_Coures_Exam(_student);
+                            //string _studentEmail = context.Users.FirstOrDefault(u=> u.UserName == )
+                            //_student = context.Students.Find(user.UserId);
+                            _student = context.Students.FirstOrDefault(s => s.StudentEmail == user.Email);
 
-                            _stuCourseExam.ShowDialog();
+                            if (_student != null)
+                            {
+                                _stuCourseExam = new Frm_Stu_Coures_Exam(_student);
+
+                                _stuCourseExam.ShowDialog();
+                            }
+                            else
+                            {
+                                _StuApplyProgram = new Frm_StuApplyProgram();
+                                _StuApplyProgram.ShowDialog();
+
+                            }
                         }
                         else if (userType == UserType.Instructor)
                         {
-                            _instructor = context.Instructors.Find(user.UserId);
+                            _instructor = context.Instructors.FirstOrDefault(u => u.InstructorEmail == user.Email);
 
                             _instructorPage = new Frm_Instructor(_instructor);
 

@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Exam_Form.Models;
 
 [PrimaryKey("UserName", "Password", "Email")]
+[Index("Email", Name = "User_Email", IsUnique = true)]
 public partial class User
 {
     [Key]
@@ -33,6 +34,9 @@ public partial class User
     [Unicode(false)]
     public string Email { get; set; }
 
-    [Column("User_Id")]
-    public int UserId { get; set; }
+    [InverseProperty("InstructorEmailNavigation")]
+    public virtual Instructor Instructor { get; set; }
+
+    [InverseProperty("StudentEmailNavigation")]
+    public virtual Student Student { get; set; }
 }

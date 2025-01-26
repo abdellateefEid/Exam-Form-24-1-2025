@@ -59,6 +59,7 @@
             Controls.Add(button1);
             Controls.Add(pictureBox1);
             Name = "Frm_ImageTest";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Frm_ImageTest";
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);

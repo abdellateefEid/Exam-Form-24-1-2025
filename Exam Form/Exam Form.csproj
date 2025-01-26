@@ -10,27 +10,90 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Report-getStuByDept.rdlc" />
+    <None Remove="Report_GetCourseTopics.rdlc" />
+    <None Remove="Report_GetExamQuestionsWithAnswers.rdlc" />
+    <None Remove="Report_GetInstructorCourses.rdlc" />
+    <None Remove="Report_GetStudentGrades.rdlc" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Report-getStuByDept.rdlc" />
+    <EmbeddedResource Include="Report_GetCourseTopics.rdlc" />
+    <EmbeddedResource Include="Report_GetExamQuestionsWithAnswers.rdlc" />
+    <EmbeddedResource Include="Report_GetInstructorCourses.rdlc" />
+    <EmbeddedResource Include="Report_GetStudentGrades.rdlc" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="ReportViewerCore.WinForms" Version="15.1.25" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Properties\Resources.Designer.cs">
+    <Compile Update="Examination_SysDataSet.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
+      <DependentUpon>Examination_SysDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Update="Examination_SysDataSet1.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Examination_SysDataSet1.xsd</DependentUpon>
+    </Compile>
+    <Compile Update="Examination_SysDataSet2.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Examination_SysDataSet2.xsd</DependentUpon>
+    </Compile>
+    <Compile Update="Examination_SysDataSet3.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Examination_SysDataSet3.xsd</DependentUpon>
+    </Compile>
+    <Compile Update="Examination_SysDataSet4.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Examination_SysDataSet4.xsd</DependentUpon>
+    </Compile>
+    <Compile Update="Examination_SysDataSet5.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Examination_SysDataSet5.xsd</DependentUpon>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+    <None Update="Examination_SysDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>Examination_SysDataSet.Designer.cs</LastGenOutput>
+    </None>
+    <None Update="Examination_SysDataSet1.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>Examination_SysDataSet1.Designer.cs</LastGenOutput>
+    </None>
+    <None Update="Examination_SysDataSet2.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>Examination_SysDataSet2.Designer.cs</LastGenOutput>
+    </None>
+    <None Update="Examination_SysDataSet3.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>Examination_SysDataSet3.Designer.cs</LastGenOutput>
+    </None>
+    <None Update="Examination_SysDataSet4.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>Examination_SysDataSet4.Designer.cs</LastGenOutput>
+    </None>
+    <None Update="Examination_SysDataSet5.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>Examination_SysDataSet5.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
 
 </Project>

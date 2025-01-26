@@ -149,6 +149,7 @@
             Name = "Frm_Stu_Register";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Frm_Stu_Register";
+            Load += Frm_Stu_Register_Load;
             ResumeLayout(false);
             PerformLayout();
         }

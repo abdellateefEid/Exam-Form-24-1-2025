@@ -32,10 +32,18 @@ public partial class Department
     [Column("Manager_Id")]
     public int? ManagerId { get; set; }
 
+    [ForeignKey("BranchNo")]
+    [InverseProperty("Departments")]
+    public virtual Branch BranchNoNavigation { get; set; }
+
     [InverseProperty("Department")]
     public virtual ICollection<Instructor> Instructors { get; set; } = new List<Instructor>();
 
     [ForeignKey("ManagerId")]
     [InverseProperty("Departments")]
     public virtual Instructor Manager { get; set; }
+
+    [ForeignKey("DepartmentId")]
+    [InverseProperty("Departments")]
+    public virtual ICollection<Track> Tracks { get; set; } = new List<Track>();
 }

@@ -17,6 +17,8 @@ public partial class Examination_Sys_Context : DbContext
     {
     }
 
+    public virtual DbSet<Branch> Branches { get; set; }
+
     public virtual DbSet<Course> Courses { get; set; }
 
     public virtual DbSet<Department> Departments { get; set; }
@@ -35,40 +37,54 @@ public partial class Examination_Sys_Context : DbContext
 
     public virtual DbSet<StudentCourse> StudentCourses { get; set; }
 
+    public virtual DbSet<Topic> Topics { get; set; }
+
+    public virtual DbSet<Track> Tracks { get; set; }
+
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlServer("Data Source=DESKTOP-AN2B1CQ;Initial Catalog=Examination_Sys;Integrated Security=True;Encrypt=True;TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Department>(entity =>
         {
-            entity.HasOne(d => d.Manager).WithMany(p => p.Departments).HasConstraintName("FK_Department_Instructor");
+            entity.HasOne(d => d.BranchNoNavigation).WithMany(p => p.Departments).HasConstraintName("FK_Department_Branch");
+
+            entity.HasOne(d => d.Manager).WithMany(p => p.Departments)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_Department_Instructor");
         });
 
         modelBuilder.Entity<Exam>(entity =>
         {
-            entity.HasOne(d => d.Course).WithMany(p => p.Exams).HasConstraintName("FK_Exam_Course");
+            entity.HasOne(d => d.Course).WithMany(p => p.Exams)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("FK_Exam_Course");
         });
 
         modelBuilder.Entity<Instructor>(entity =>
         {
+            entity.ToTable("Instructor", tb => tb.HasTrigger("trg_InstructorInsert"));
+
             entity.HasOne(d => d.Department).WithMany(p => p.Instructors)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Instructor_Department");
+
+            entity.HasOne(d => d.InstructorEmailNavigation).WithOne(p => p.Instructor)
+                .HasPrincipalKey<User>(p => p.Email)
+                .HasForeignKey<Instructor>(d => d.InstructorEmail)
+                .HasConstraintName("FK_Instructor_Users1");
 
             entity.HasMany(d => d.Courses).WithMany(p => p.Instructors)
                 .UsingEntity<Dictionary<string, object>>(
                     "InstructorCourse",
                     r => r.HasOne<Course>().WithMany()
                         .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
                         .HasConstraintName("FK_Instructor_Course_Course"),
                     l => l.HasOne<Instructor>().WithMany()
                         .HasForeignKey("InstructorId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
                         .HasConstraintName("FK_Instructor_Course_Instructor"),
                     j =>
                     {
@@ -83,9 +99,7 @@ public partial class Examination_Sys_Context : DbContext
         {
             entity.Property(e => e.QuestionId).ValueGeneratedNever();
 
-            entity.HasOne(d => d.Course).WithMany(p => p.Questions)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Question_Course");
+            entity.HasOne(d => d.Course).WithMany(p => p.Questions).HasConstraintName("FK_Question_Course");
         });
 
         modelBuilder.Entity<QuestionOption>(entity =>
@@ -96,6 +110,13 @@ public partial class Examination_Sys_Context : DbContext
         modelBuilder.Entity<Student>(entity =>
         {
             entity.Property(e => e.StudentId).ValueGeneratedNever();
+
+            entity.HasOne(d => d.StudentEmailNavigation).WithOne(p => p.Student)
+                .HasPrincipalKey<User>(p => p.Email)
+                .HasForeignKey<Student>(d => d.StudentEmail)
+                .HasConstraintName("FK_Student_Users");
+
+            entity.HasOne(d => d.Track).WithMany(p => p.Students).HasConstraintName("FK_Student_Track");
         });
 
         modelBuilder.Entity<StudentAnswer>(entity =>
@@ -106,22 +127,47 @@ public partial class Examination_Sys_Context : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Sudent_Answer_Exam");
 
-            entity.HasOne(d => d.Question).WithMany(p => p.StudentAnswers).HasConstraintName("FK_Sudent_Answer_Question");
-
-            entity.HasOne(d => d.Student).WithMany(p => p.StudentAnswers)
+            entity.HasOne(d => d.Question).WithMany(p => p.StudentAnswers)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Sudent_Answer_Student");
+                .HasConstraintName("FK_Sudent_Answer_Question");
+
+            entity.HasOne(d => d.Student).WithMany(p => p.StudentAnswers).HasConstraintName("FK_Sudent_Answer_Student");
         });
 
         modelBuilder.Entity<StudentCourse>(entity =>
         {
-            entity.HasOne(d => d.Course).WithMany(p => p.StudentCourses)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Student_Course_Course");
+            entity.HasOne(d => d.Course).WithMany(p => p.StudentCourses).HasConstraintName("FK_Student_Course_Course");
 
-            entity.HasOne(d => d.Student).WithMany(p => p.StudentCourses)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Student_Course_Student");
+            entity.HasOne(d => d.Student).WithMany(p => p.StudentCourses).HasConstraintName("FK_Student_Course_Student");
+        });
+
+        modelBuilder.Entity<Topic>(entity =>
+        {
+            entity.HasKey(e => new { e.CourseId, e.TopicName }).HasName("PK_Topic_1");
+
+            entity.HasOne(d => d.Course).WithMany(p => p.Topics).HasConstraintName("FK_Topic_Course");
+        });
+
+        modelBuilder.Entity<Track>(entity =>
+        {
+            entity.Property(e => e.TrackId).ValueGeneratedNever();
+
+            entity.HasMany(d => d.Departments).WithMany(p => p.Tracks)
+                .UsingEntity<Dictionary<string, object>>(
+                    "TrackDepartment",
+                    r => r.HasOne<Department>().WithMany()
+                        .HasForeignKey("DepartmentId")
+                        .HasConstraintName("FK_Track_Department_Department"),
+                    l => l.HasOne<Track>().WithMany()
+                        .HasForeignKey("TrackId")
+                        .HasConstraintName("FK_Track_Department_Track"),
+                    j =>
+                    {
+                        j.HasKey("TrackId", "DepartmentId");
+                        j.ToTable("Track_Department");
+                        j.IndexerProperty<int>("TrackId").HasColumnName("Track_Id");
+                        j.IndexerProperty<int>("DepartmentId").HasColumnName("Department_Id");
+                    });
         });
 
         OnModelCreatingPartial(modelBuilder);

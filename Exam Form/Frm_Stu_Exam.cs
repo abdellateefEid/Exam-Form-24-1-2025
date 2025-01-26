@@ -11,10 +11,10 @@ namespace Exam_Form
         private int[] _questionOptionRadioIndex;
         private string[] _questionsAnswer;
         private int _currentIndex;
-        private int _courseId; // Replace with your desired Course_Id
+        private int? _courseId; // Replace with your desired Course_Id
         private int _examId; // Replace with your desired Course_Id
         private int _studentId; // Replace with your desired Course_Id
-        public Frm_Stu_Exam(int studentId, int courseId, int examId)
+        public Frm_Stu_Exam(int studentId, int? courseId, int examId)
         {
             _studentId = studentId;
             _courseId = courseId;
@@ -22,24 +22,35 @@ namespace Exam_Form
             InitializeComponent();
             _context = new Examination_Sys_Context();
         }
-
         private async void Frm_Stu_Exam_Load(object sender, EventArgs e)
         {
             this.lab_submit.Visible = false;
             this.btn_colse.Visible = false;
 
-            int numQuestions = 10; // Replace with your desired number of questions
-
-            // Dynamically allocate arrays based on numQuestions
-            _questionOptionRadioIndex = new int[numQuestions];
-            _questionsAnswer = new string[numQuestions];
-            Array.Fill(_questionOptionRadioIndex, -1);
-
-            _currentIndex = 0;
+            // Load the questions from the stored procedure
             await LoadQuestions(_courseId, _studentId, _examId);
+
+
         }
 
-        private async Task LoadQuestions(int courseId, int studentId, int examId)
+        //private async void Frm_Stu_Exam_Load(object sender, EventArgs e)
+        //{
+        //    this.lab_submit.Visible = false;
+        //    this.btn_colse.Visible = false;
+
+        //    int numQuestions = 10; //_questions.Count; // Replace with your desired number of questions
+
+        //    // Dynamically allocate arrays based on numQuestions
+        //    _questionOptionRadioIndex = new int[numQuestions];
+        //    _questionsAnswer = new string[numQuestions];
+        //    Array.Fill(_questionOptionRadioIndex, -1);
+
+        //    _currentIndex = 0;
+        //    await LoadQuestions(_courseId, _studentId, _examId);
+
+        //}
+
+        private async Task LoadQuestions(int? courseId, int studentId, int examId)
         {
             try
             {
@@ -49,6 +60,21 @@ namespace Exam_Form
 
                 if (_questions != null && _questions.Count > 0)
                 {
+                    // Ensure arrays are initialized based on the number of questions returned
+                    int numQuestions = _questions?.Count ?? 0;
+
+                    if (numQuestions > 0)
+                    {
+                        _questionOptionRadioIndex = new int[numQuestions];
+                        _questionsAnswer = new string[numQuestions];
+                        Array.Fill(_questionOptionRadioIndex, -1);
+                        //_currentIndex = 0;
+                    }
+                    else
+                    {
+                        MessageBox.Show("No questions available.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        this.Close();
+                    }
                     _currentIndex = 0;
                     DisplayQuestion(_currentIndex);
                 }
@@ -62,30 +88,13 @@ namespace Exam_Form
                 MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
         private void DisplayQuestion(int index)
         {
-            if (_currentIndex == 0)
-                this.btn_pre.Visible = false;
-            else
-            {
-                this.btn_pre.Visible = true;
-            }
-            if (_currentIndex == 9)
-                this.btn_nxt.Visible = false;
-            else
-            {
-                this.btn_nxt.Visible = true;
-            }
-
-            if (_questionsAnswer[index] != String.Empty)
-            {
-                this.lab_ans.Text = _questionsAnswer[index];
-            }
-
-
             if (_questions == null || index < 0 || index >= _questions.Count)
                 return;
+
+            this.btn_pre.Visible = index > 0;
+            this.btn_nxt.Visible = index < _questions.Count - 1;
 
             ClearRadioButtons();
 
@@ -120,7 +129,71 @@ namespace Exam_Form
                 var radioButtons = groupBox1.Controls.OfType<RadioButton>().ToList();
                 radioButtons[_questionOptionRadioIndex[index]].Checked = true;
             }
+
+            //if (!string.IsNullOrEmpty(_questionsAnswer[index]))
+            //{
+            //    this.lab_ans.Text = _questionsAnswer[index];
+            //}
         }
+
+        //private void DisplayQuestion(int index)
+        //{
+        //    if (_currentIndex == 0)
+        //        this.btn_pre.Visible = false;
+        //    else
+        //    {
+        //        this.btn_pre.Visible = true;
+        //    }
+        //    if (_currentIndex == 9)
+        //        this.btn_nxt.Visible = false;
+        //    else
+        //    {
+        //        this.btn_nxt.Visible = true;
+        //    }
+
+        //    if (_questionsAnswer[index] != String.Empty)
+        //    {
+        //        this.lab_ans.Text = _questionsAnswer[index];
+        //    }
+
+
+        //    if (_questions == null || index < 0 || index >= _questions.Count)
+        //        return;
+
+        //    ClearRadioButtons();
+
+        //    var question = _questions[index];
+        //    var questionOptions = _context.QuestionOptions
+        //        .Where(qo => qo.QuestionId == question.Question_Id)
+        //        .ToList();
+
+        //    this.lab_heahOfQuesion.Text = $"Q{index + 1}: {question.Question_Head}";
+
+        //    if (question.Question_Type == "mcq")
+        //    {
+        //        radioButton1.Text = questionOptions.Count > 0 ? questionOptions[0].QuestionOption1 : string.Empty;
+        //        radioButton2.Text = questionOptions.Count > 1 ? questionOptions[1].QuestionOption1 : string.Empty;
+        //        radioButton3.Visible = questionOptions.Count > 2;
+        //        radioButton4.Visible = questionOptions.Count > 3;
+
+        //        if (radioButton3.Visible) radioButton3.Text = questionOptions[2].QuestionOption1;
+        //        if (radioButton4.Visible) radioButton4.Text = questionOptions[3].QuestionOption1;
+        //    }
+        //    else
+        //    {
+        //        radioButton1.Text = "True";
+        //        radioButton2.Text = "False";
+        //        radioButton3.Visible = false;
+        //        radioButton4.Visible = false;
+        //    }
+
+        //    // Restore the selected answer if available
+        //    if (_questionOptionRadioIndex[index] > -1)
+        //    {
+        //        var radioButtons = groupBox1.Controls.OfType<RadioButton>().ToList();
+        //        radioButtons[_questionOptionRadioIndex[index]].Checked = true;
+        //    }
+        //}
 
         private void btn_nxt_Click(object sender, EventArgs e)
         {
@@ -233,23 +306,36 @@ namespace Exam_Form
                 radioButton.Checked = false;
             }
         }
-
         private DataTable CreateAnswerDataTable()
         {
-            // Create a DataTable and define the columns to match the AnswerTable type in SQL Server
             DataTable answerTable = new DataTable();
             answerTable.Columns.Add("Question_Id", typeof(int));
             answerTable.Columns.Add("Student_Ans", typeof(string));
 
-            // Add rows to the DataTable (this should be populated with data from your form)
-            for (int i = 0; i < _questionsAnswer.Length; i++)
+            for (int i = 0; i < _questions.Count; i++)
             {
-                // Assuming _questionsAnswer contains the answers to the questions
                 answerTable.Rows.Add(_questions[i].Question_Id, _questionsAnswer[i]);
             }
 
             return answerTable;
         }
+
+        //private DataTable CreateAnswerDataTable()
+        //{
+        //    // Create a DataTable and define the columns to match the AnswerTable type in SQL Server
+        //    DataTable answerTable = new DataTable();
+        //    answerTable.Columns.Add("Question_Id", typeof(int));
+        //    answerTable.Columns.Add("Student_Ans", typeof(string));
+
+        //    // Add rows to the DataTable (this should be populated with data from your form)
+        //    for (int i = 0; i < _questionsAnswer.Length; i++)
+        //    {
+        //        // Assuming _questionsAnswer contains the answers to the questions
+        //        answerTable.Rows.Add(_questions[i].Question_Id, _questionsAnswer[i]);
+        //    }
+
+        //    return answerTable;
+        //}
 
         private void panel1_Paint(object sender, PaintEventArgs e)
         {

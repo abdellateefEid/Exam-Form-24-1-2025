@@ -49,7 +49,7 @@ namespace Exam_Form
                 {
                     UserName = txtStuname.Text,
                     Password = txtPass.Text,
-                    UserType = "student",
+                    UserType = "Student",
                     Email = txtEmail.Text
                 };
 
@@ -59,6 +59,11 @@ namespace Exam_Form
                 MessageBox.Show("Account created successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
             }
+        }
+
+        private void Frm_Stu_Register_Load(object sender, EventArgs e)
+        {
+
         }
 
         //private async void btn_submit_Click(object sender, EventArgs e)

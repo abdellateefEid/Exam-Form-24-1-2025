@@ -13,10 +13,16 @@ namespace Exam_Form.Models
 {
     public partial interface IExamination_Sys_ContextProcedures
     {
-        Task<List<CorrectExamResult>> CorrectExamAsync(int? Student_Id, int? Exam_Id, DataTable Answers, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
-        Task<List<GenerateExamResult>> GenerateExamAsync(int? Course_Id, int? Num_Questions, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
-        Task<List<GenerateExamThenInsertItResult>> GenerateExamThenInsertItAsync(int? Course_Id, int? Student_Id, int? Exam_Id, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
-        Task<List<GetStudentCoursesAndExamsResult>> GetStudentCoursesAndExamsAsync(int? StudentId, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
-        Task<int> InsertStudentAnswerAsync(int? Student_Id, int? Exam_Id, int? Question_Id, string Student_Ans, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
+        Task<List<CorrectExamResult>> CorrectExamAsync(int? student_Id, int? exam_Id, DataTable answers, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
+        Task<List<GenerateExamResult>> GenerateExamAsync(int? course_Id, int? num_Questions, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
+        Task<List<GenerateExamThenInsertItResult>> GenerateExamThenInsertItAsync(int? course_Id, int? student_Id, int? exam_Id, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
+        Task<List<GetCourseTopicsResult>> GetCourseTopicsAsync(int? courseId, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
+        Task<List<GetExamQuestionsWithAnswersResult>> GetExamQuestionsWithAnswersAsync(int? examId, int? studentId, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
+        Task<List<GetExamQuestionsWithChoices_updatedResult>> GetExamQuestionsWithChoices_updatedAsync(int? examId, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
+        Task<List<GetInstructorCoursesResult>> GetInstructorCoursesAsync(int? instructor_id, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
+        Task<List<GetStudentCoursesAndExamsResult>> GetStudentCoursesAndExamsAsync(int? studentId, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
+        Task<List<GetStudentGradesResult>> GetStudentGradesAsync(int? studentId, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
+        Task<List<GetStudentsByDepartmentResult>> GetStudentsByDepartmentAsync(int? department_Id, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
+        Task<int> InsertStudentAnswerAsync(int? student_Id, int? exam_Id, int? question_Id, string student_Ans, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
     }
 }
